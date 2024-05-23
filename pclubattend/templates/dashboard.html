@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Dashboard</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <div class="container">
+        
+      <div class="row justify-content-center">
+        <div id="camera" class="col-md-6" hidden>
+            <p>Please open your camera to upload an image:</p>
+            <video id="camera1" width="100%" height="auto" autoplay></video>
+            <canvas id="canvas" style="display: none"></canvas>
+            <button class="btn btn-primary mt-2" onclick="capturePhoto()">
+              Capture
+            </button>
+          </div>
+
+        <div class="col-md-6">
+          <h2 class="text-center">Welcome, {{ username }}!</h2>
+          
+          <div class="text-center">
+            <div class="btn-group-horizontal">
+                <style>
+                    /* Custom CSS */
+                   .btn-group-vertical > button {
+                        margin-bottom: 10px; /* Adds space between buttons */
+                    }
+                </style>
+                <button id="initiate-verification" class="btn btn-primary">
+                    Initiate Verification
+                  </button>
+                 <a href="{{ url_for('logout') }}" class="btn btn-primary">Logout</a>
+
+                 <button class="btn btn-primary mt-5" id="attendance" onclick="logAttendance()" hidden>
+                    Log Attendance
+                </button>
+                <a href="{{ url_for('view_attendance') }}" class="btn btn-primary">View Attendance</a>
+
+
+            </div>
+
+
+          </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    const video = document.getElementById("camera1");
+
+    // Get the canvas element
+    const canvas = document.getElementById("canvas");
+    const context = canvas.getContext("2d");
+
+    // Get the preview image element
+    const previewImage = document.getElementById("preview");
+    function initiateverification() {
+      navigator.mediaDevices
+        .getUserMedia({ video: true })
+        .then((stream) => {
+          video.srcObject = stream;
+        })
+        .catch((error) => {
+          alert(
+            "Error accessing camera: " +
+              error.message +
+              ". Please grant access to your camera and try again."
+          );
+          console.error("Error accessing camera:", error);
+        });
+    }
+    function capturePhoto() {
+      // Function to capture image from video stream
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      // Convert the canvas image to base64
+      const imageData = canvas.toDataURL("image/jpeg");
+
+      // Set the base64 image data as the source of the preview image
+      //previewImage.src = imageData;
+      //previewImage.style.width = video.offsetWidth + 'px';
+      //previewImage.style.height = video.offsetHeight + 'px';
+      console.log(imageData);
+      //document.getElementById('loading-bar').style.width = '25%';
+
+      //previewImage.style.display = 'block';
+      // Access the camera stream
+
+      // Create the JSON payload
+
+      // Send the JSON POST request
+      const apiUrl = "http://localhost:5000/verify";
+      fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          img: imageData.replace(/^data:image\/(png|jpeg|jpg);base64,/, ""),
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.code == 0) {
+            alert("Error verifying your image. Try again");
+          } else {
+            alert("Face verified");
+            document.getElementById("attendance").hidden = false;
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+
+    function logAttendance() {
+      const apiUrl = "http://localhost:5000/log_attendance";
+      fetch(apiUrl)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.code == 0) {
+            alert("Attendance already logged");
+          } else if (data.code == 1) {
+            alert("Attendance logged");
+          } else {
+            alert("Face not verified try again");
+          }
+        });
+    }
+
+    document
+      .getElementById("initiate-verification")
+      .addEventListener("click", function () {
+        document.getElementById("camera").hidden = false;
+        initiateverification();
+      });
+  </script>
+</html>

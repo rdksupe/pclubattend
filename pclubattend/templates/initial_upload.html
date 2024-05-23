@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Initial Upload</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-4">Welcome, {{ username }}!</h1>
+        <p>Please open your camera to upload an image:</p>
+        <div class="row">
+            <div class="col-md-6">
+                <video id="camera" width="100%" height="auto" autoplay></video>
+                <canvas id="canvas" style="display: none;"></canvas>
+                <button class="btn btn-primary mt-2" onclick="captureImage()">Capture</button>
+            </div>
+            <div class="col-md-6">
+                <img id="preview" src="" alt="Preview" style="display: none;" class="img-fluid">
+            </div>
+        </div>
+        <div class="text-center">
+            <a href="{{ url_for('logout') }}" class="btn btn-primary">Logout</a>
+        </div>
+        <div id="loading-bar-container" style="width: 100%; background-color: #f3f3f3;">
+            <div id="loading-bar" style="width: 0%; height: 30px; background-color: #4CAF50;"></div>
+        </div>
+        
+        <form  method="POST">
+            <input type="hidden" id="imageData" name="imageData">
+            <input type="submit" id = "submit-button" value="Submit" class="btn btn-primary mt-2" disabled>
+        </form>
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Get the video element
+        const api_key_detect = '1c833b0e-5f29-40e1-a2a6-16a2a7c28376' ;  
+        const video = document.getElementById('camera');
+
+        // Get the canvas element
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+
+        // Get the preview image element
+        const previewImage = document.getElementById('preview');
+
+        // Access the camera stream
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then((stream) => {
+                video.srcObject = stream;
+            })
+            .catch((error) => {
+                alert('Error accessing camera: ' + error.message + '. Please grant access to your camera and try again.');
+                console.error('Error accessing camera:', error);
+            });
+
+        // Function to capture image from video stream
+        function captureImage() {
+            // Draw the current video frame onto the canvas
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Convert the canvas image to base64
+            const imageData = canvas.toDataURL('image/png');
+
+            // Set the base64 image data as the source of the preview image
+            previewImage.src = imageData;
+            previewImage.style.width = video.offsetWidth + 'px';
+            previewImage.style.height = video.offsetHeight + 'px';
+            console.log(imageData) ; 
+            document.getElementById('loading-bar').style.width = '25%';
+
+            previewImage.style.display = 'block';
+
+            // Set the base64 image data as the value of the hidden input field
+            document.getElementById('imageData').value = imageData;
+
+            // Send the image data to the compreface endpoint
+            const apiUrl = 'http://localhost:8000/api/v1/detection/detect?face_plugins=landmarks, gender, age, pose';
+            const apiKey = api_key_detect;
+
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'x-api-key': apiKey,
+                    'Content-Type': 'application/json' // Set the content type to application/json
+                },
+                body: JSON.stringify({ file: imageData.replace(/^data:image\/(png|jpeg|jpg);base64,/, '') }) // Send the data in JSON format without the data URL prefix
+
+                //body: JSON.stringify({ file: imageData }) // Send the data in JSON format
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Check if the response indicates no face found
+                if (data.code === 28) {
+                    alert('No face is found in the given image. Please capture the photo again.');
+                }
+                // Extract the box coordinates from the response data
+                else {
+                    document.getElementById('loading-bar').style.width = '50%';
+                    alert('Face found adding your face to database');
+                    const subjectName = '{{ username }}';
+                    console.log(subjectName)
+                    const apiUrl = 'http://localhost:8000/api/v1/recognition/subjects';
+                    const apiKey1 = '6b608248-7019-4257-bd37-c58ce8c557d7';
+                    fetch(apiUrl, {
+                        method: 'POST',
+                        headers: {
+                            'x-api-key': '6b608248-7019-4257-bd37-c58ce8c557d7',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ subject: subjectName })
+                    })
+                    .then(response => response.json())
+                    .then(data => {// Make another request to add the face to the recognition database
+                        document.getElementById('loading-bar').style.width = '75%';
+                        const addFaceUrl = `http://localhost:8000/api/v1/recognition/faces?subject=${subjectName}`;
+                        //const addFaceApiKey = '<service_api_key>';
+                        fetch(addFaceUrl, {
+                            method: 'POST',
+                            headers: {
+                                'x-api-key': '6b608248-7019-4257-bd37-c58ce8c557d7',
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ file: imageData.replace(/^data:image\/(png|jpeg|jpg);base64,/, '') })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            // Handle the response from adding the face to the recognition database
+                            document.getElementById('loading-bar').style.width = '100%';
+                            console.log(data);
+                            document.getElementById('submit-button').disabled = false;
+                        })
+                        .catch(error => {
+                            console.error('Error adding face to recognition database:', error);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error adding subject to database:', error);
+                    });
+                }
+            })
+
+            .catch(error => {
+                console.error('Error sending image to compreface:', error);
+            });
+        }
+    </script>
+</body>
+</html>
