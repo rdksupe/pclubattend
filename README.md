@@ -15,7 +15,13 @@
 <pre><code>pip install -r requirements.txt
 </code></pre>
 <p>Follow instructions <a href="https://github.com/exadel-inc/CompreFace?tab=readme-ov-file#getting-started-with-compreface">here</a> to setup compre_face and get relevant api-keys to run the app .</p>
-<p>Follow instructions here to setup mongodb</p>
-<pre><code>enter code here
+<p>replace API_KEY: str  =  ‘’ with your recognition keys from CompreFace<br>
+in initial_upload.html replace<br>
+const  api_key_detect  =  ‘’ ; with detection api keys</p>
+<p>const  api_key_recog  =  ’ '; with recognition api key</p>
+<p>Follow instructions <a href="https://www.mongodb.com/docs/manual/administration/install-on-linux/">here</a> to setup mongodb</p>
+<p>create a new db named user_management with a users collection and attendance collection and import the relevant json from the repo . Finally run the app :</p>
+<pre><code>python3 app.py
 </code></pre>
+<p>Default admin panel password : admin:admin</p>
 
