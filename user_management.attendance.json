@@ -1,0 +1,76 @@
+[{
+  "_id": {
+    "$oid": "664eb40e5846d6fa25d6e7c3"
+  },
+  "username": "rdk",
+  "attendance": [
+    {
+      "date": "20-05-2024",
+      "status": "Present"
+    },
+    {
+      "date": "21-05-2024",
+      "status": "Present"
+    },
+    {
+      "date": "22-05-2024",
+      "status": "Present"
+    },
+    {
+      "date": "23-05-2024",
+      "status": "Present"
+    },
+    {
+      "date": "23-05-2024",
+      "status": "Present"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "664efa8a963c9b7c44b08caf"
+  },
+  "username": "akshatfuck",
+  "attendance": [
+    {
+      "date": "23-05-2024",
+      "status": "Present"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "664f52d1649c91b7a6d288d8"
+  },
+  "username": "shreyas",
+  "attendance": [
+    {
+      "date": "23-05-2024",
+      "status": "Present"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "664f5361649c91b7a6d288da"
+  },
+  "username": "tanishq",
+  "attendance": [
+    {
+      "date": "23-05-2024",
+      "status": "Present"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "664f726ff2a5ae8e0c2cc548"
+  },
+  "username": "om",
+  "attendance": [
+    {
+      "date": "23-05-2024",
+      "status": "Present"
+    }
+  ]
+}]

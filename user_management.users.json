@@ -1,0 +1,88 @@
+[{
+  "_id": {
+    "$oid": "664d238eabf93ca4e7a26a13"
+  },
+  "username": "testuser",
+  "password": "hashedpassword",
+  "image_uploaded": false
+},
+{
+  "_id": {
+    "$oid": "664d2b1ecfce0e1766024cce"
+  },
+  "username": "rdk",
+  "password": "$2b$12$kzBqO7xG48zearAYC/w5eebCJ6iNRz47pfs/hLqyY7RlESLfMctie",
+  "image_uploaded": true
+},
+{
+  "_id": {
+    "$oid": "664d5fd3a030cd21241e5e12"
+  },
+  "username": "rdk1",
+  "password": "$2b$12$sy7AL6OrmMahoRsBz70RYOLsJIKulY0ZV1Ub2ChpAIMYXEA/0cXa2",
+  "image_uploaded": false
+},
+{
+  "_id": {
+    "$oid": "664e6bf2d8b02eb5b82530bf"
+  },
+  "username": "ronav",
+  "password": "$2b$12$tUfcPTXjWuQnKNtND.PQYey8cwhpqgtFpj0pWEj8gwGBbaIXtbxA.",
+  "image_uploaded": false
+},
+{
+  "_id": {
+    "$oid": "664e6c4d31ff9d8be282cd81"
+  },
+  "username": "ronav1",
+  "password": "$2b$12$a67ka6cSjLvf7OR8c5vDXeq468wkiH3N.SOASyemItGn3eWDfDcB6",
+  "image_uploaded": false
+},
+{
+  "_id": {
+    "$oid": "664ee502abc91b8a3c2a5eb6"
+  },
+  "username": "rolex",
+  "password": "$2b$12$EY6N.6so8hju/e96wX69oOIsSEuGA2qp2lvssvQ7KMwFOilMirisK",
+  "image_uploaded": false
+},
+{
+  "_id": {
+    "$oid": "664ee9fda6c728723a003f29"
+  },
+  "username": "admin",
+  "password": "$2b$12$AAUHmr87aZlHTgDISswK3e0vguNvii5NZxdYhqFdNVNNKbGlrr1P6",
+  "image_uploaded": false
+},
+{
+  "_id": {
+    "$oid": "664ef998e855c211acea6e82"
+  },
+  "username": "akshatfuck",
+  "password": "$2b$12$Yi0FkCd9xkjX1uI9Bv3vq.ZczMCNC44OHsowzM4QZ7o/TpIeoTfPy",
+  "image_uploaded": true
+},
+{
+  "_id": {
+    "$oid": "664f5258649c91b7a6d288d7"
+  },
+  "username": "shreyas",
+  "password": "$2b$12$ydR7D6ku.yyM7epHk4LRgu4/RHPaLPk3waY7Z7IJtYSTmxPMMGBWu",
+  "image_uploaded": true
+},
+{
+  "_id": {
+    "$oid": "664f5320649c91b7a6d288d9"
+  },
+  "username": "tanishq",
+  "password": "$2b$12$3BnFldewdzzwWGNUHlhp4.znHT1QBPVSpqbHely/RXos1NgWzIEqy",
+  "image_uploaded": true
+},
+{
+  "_id": {
+    "$oid": "664f723df2a5ae8e0c2cc547"
+  },
+  "username": "om",
+  "password": "$2b$12$BIgOiwSbMq/HbZaksF/p5uaWJ9/037wFWSXIn9USvIyG4e8E1EUEm",
+  "image_uploaded": true
+}]
