@@ -15,7 +15,7 @@
 <pre><code>pip install -r requirements.txt
 </code></pre>
 <p>Follow instructions <a href="https://github.com/exadel-inc/CompreFace?tab=readme-ov-file#getting-started-with-compreface">here</a> to setup compre_face and get relevant api-keys to run the app .</p>
-<p>replace API_KEY: str  =  ‘’ with your recognition keys from CompreFace<br>
+<p>replace API_KEY: str  =  ‘’ with your recognition keys from CompreFace (in <a href="http://app.py">app.py</a>)<br>
 in initial_upload.html replace<br>
 const  api_key_detect  =  ‘’ ; with detection api keys</p>
 <p>const  api_key_recog  =  ’ '; with recognition api key</p>
